@@ -201,4 +201,26 @@ class MultiLineToSquareView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : MultiLineToSquareView) {
+
+        private val animator : Animator = Animator(view)
+        private val mltsr : MultiLineToSquare = MultiLineToSquare(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            mltsr.draw(canvas, paint)
+            animator.animate {
+                mltsr.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            mltsr.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
