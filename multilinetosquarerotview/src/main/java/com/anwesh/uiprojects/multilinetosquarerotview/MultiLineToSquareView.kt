@@ -33,3 +33,38 @@ fun Float.mirrorValue(a : Int, b : Int) : Float {
 fun Float.updateValue(dir : Float, a : Int, b : Int) : Float {
     return mirrorValue(a, b) * dir * scGap
 }
+
+fun Canvas.drawSquare(i : Int, sc1 : Float, sc2 : Float, size : Float, paint : Paint) {
+    val xGap : Float = size / lines
+    save()
+    rotate(sweepDeg * sc2.divideScale(i, lines))
+    for (j in 0..1) {
+        val y : Float = xGap * (1f - 2 * j) * sc1.divideScale(j, lines)
+        drawLine(-xGap, y, xGap, y, paint)
+        drawLine(-xGap, 0f, -xGap, y, paint)
+        drawLine(xGap, 0f, xGap, y, paint)
+    }
+    restore()
+}
+
+fun Canvas.drawMultiLineSquare(sc1 : Float, sc2 : Float, size : Float, paint : Paint) {
+    for (j in 0..(lines - 1)) {
+        drawSquare(j, sc1, sc2, size, paint)
+    }
+}
+
+fun Canvas.drawMLTSRNode(i : Int, scale : Float, paint : Paint) {
+    val sc1 : Float = scale.divideScale(0, 2)
+    val sc2 : Float = scale.divideScale(1, 2)
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    val gap : Float = h / (nodes + 1)
+    val size : Float = gap / sizeFactor
+    paint.color = foreColor
+    paint.strokeCap = Paint.Cap.ROUND
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    save()
+    translate(w / 2, gap * (i + 1))
+    drawMultiLineSquare(sc1, sc2, size, paint)
+    restore()
+}
