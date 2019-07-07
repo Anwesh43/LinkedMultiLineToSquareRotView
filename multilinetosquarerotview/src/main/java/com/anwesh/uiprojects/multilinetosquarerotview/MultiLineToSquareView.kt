@@ -35,11 +35,11 @@ fun Float.updateValue(dir : Float, a : Int, b : Int) : Float {
 }
 
 fun Canvas.drawSquare(i : Int, sc1 : Float, sc2 : Float, size : Float, paint : Paint) {
-    val xGap : Float = size / lines
+    val xGap : Float = (size / lines) * (lines - i)
     save()
     rotate(sweepDeg * sc2.divideScale(i, lines))
     for (j in 0..1) {
-        val y : Float = xGap * (1f - 2 * j) * sc1.divideScale(j, lines)
+        val y : Float = xGap * (1f - 2 * j) * sc1.divideScale(i, lines)
         drawLine(-xGap, y, xGap, y, paint)
         drawLine(-xGap, 0f, -xGap, y, paint)
         drawLine(xGap, 0f, xGap, y, paint)
@@ -231,7 +231,7 @@ class MultiLineToSquareView(ctx : Context) : View(ctx) {
         fun create(activity : Activity) : MultiLineToSquareView {
             val view : MultiLineToSquareView = MultiLineToSquareView(activity)
             activity.setContentView(view)
-            return view 
+            return view
         }
     }
 }
