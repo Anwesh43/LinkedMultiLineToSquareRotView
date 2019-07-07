@@ -225,4 +225,13 @@ class MultiLineToSquareView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : MultiLineToSquareView {
+            val view : MultiLineToSquareView = MultiLineToSquareView(activity)
+            activity.setContentView(view)
+            return view 
+        }
+    }
 }
